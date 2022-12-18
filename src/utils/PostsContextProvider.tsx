@@ -32,4 +32,4 @@ export const PostsContextProvider = ({ children }: { children: ReactNode }) => {
     )
 };
 
-export const usePostsContext = () => useContext(PostsContext);
+export const usePostsContext = () => useContext(PostsContext) || {};

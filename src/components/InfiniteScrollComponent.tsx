@@ -16,9 +16,9 @@ export const InfiniteScrollComponent = ({ dataLength, onFetch, hasMoreData, chil
         next={onFetch}
         hasMore={hasMoreData}
         loader={
-            <p style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: 'center' }}>
                 <Spin />
-            </p>}
+            </div>}
     >
         {children}
     </InfiniteScroll>

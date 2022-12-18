@@ -1,4 +1,4 @@
-import { Post } from "../types/post-types";
+import { Post, PostId } from "../types/post-types";
 import { sendRequest } from "./api";
 
 const PAGE_LIMIT = 4;
@@ -14,6 +14,12 @@ export const getPosts = async (page?: number) => {
 };
 
 export const addPost = async (newPost: Post) => {
-    const response = await sendRequest('/posts', 'POST', newPost);
+    const response = await sendRequest(POSTS_API, 'POST', newPost);
+    return response;
+};
+
+export const deletePost = async (id: PostId) => {
+    const path = `${POSTS_API}/${id}`;
+    const response = await sendRequest(path, 'DELETE');
     return response;
 };

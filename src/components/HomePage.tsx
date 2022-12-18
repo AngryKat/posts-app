@@ -1,15 +1,11 @@
 
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { Button, Layout, Col, Row, Modal } from 'antd';
-import { PlusOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import TweenOne, { AnimObjectOrArray } from 'rc-tween-one';
-import Children from 'rc-tween-one/lib/plugin/ChildrenPlugin';
-import { Parallax } from 'rc-scroll-anim';
+import { useEffect, useState } from 'react';
+import { Button, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { getPosts } from '../utils/post-requests';
-import { Post } from '../types/post-types';
+import { usePostsContext } from '../utils/PostsContextProvider';
 import { PostComponent } from './PostComponent';
-import { Content, Footer } from 'antd/es/layout/layout';
 import { InfiniteScrollComponent } from './InfiniteScrollComponent';
 import { ScrollToTopButton } from './ScrollToTopButton';
 
@@ -24,10 +20,10 @@ const AddNewPostButton = ({ onClick }: { onClick: () => void }) => (
 );
 
 export const HomePage = () => {
+    const { updatePosts, posts } = usePostsContext();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [hasMoreData, setHasMoreData] = useState(true);
     const [currentPage, setCurrentPage] = useState(2);
-    const [posts, setPosts] = useState<Post[]>([]);
 
     const fetchPosts = async () => {
         const { data } = await getPosts(currentPage);
@@ -35,14 +31,14 @@ export const HomePage = () => {
             setHasMoreData(false);
             return;
         };
-        setPosts((prevData) => [...prevData, ...data]);
+        updatePosts([...posts, ...data]);
         setCurrentPage((prevPage) => prevPage + 1);
     }
 
     useEffect(() => {
         const fetchPosts = async () => {
             const { data } = await getPosts(1);
-            setPosts(data);
+            updatePosts(data);
         };
         fetchPosts();
     }, []);
@@ -56,8 +52,7 @@ export const HomePage = () => {
                 </InfiniteScrollComponent>
             </div>
             <ScrollToTopButton />
-
-            <Modal visible={isModalVisible} onCancel={() => setIsModalVisible(false)} />
+            <Modal open={isModalVisible} onCancel={() => setIsModalVisible(false)} />
         </>
     );
 };
