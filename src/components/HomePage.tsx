@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { getPosts } from '../utils/post-requests';
-import { usePostsContext } from '../utils/PostsContextProvider';
 import { PostComponent } from './PostComponent';
 import { InfiniteScrollComponent } from './InfiniteScrollComponent';
 import { ScrollToTopButton } from './ScrollToTopButton';
+import { usePostsContext } from '../utils/PostsContextProvider copy';
+import { useModalsContext } from '../utils/ModalContextProvider';
 
 const AddNewPostButton = ({ onClick }: { onClick: () => void }) => (
     <Button
@@ -20,8 +21,8 @@ const AddNewPostButton = ({ onClick }: { onClick: () => void }) => (
 );
 
 export const HomePage = () => {
+    const { openModal } = useModalsContext();
     const { updatePosts, posts } = usePostsContext();
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [hasMoreData, setHasMoreData] = useState(true);
     const [currentPage, setCurrentPage] = useState(2);
 
@@ -36,23 +37,32 @@ export const HomePage = () => {
     }
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            const { data } = await getPosts(1);
-            updatePosts(data);
-        };
-        fetchPosts();
-    }, []);
+        if (posts.length <= 3) {
+            const fetchPosts = async () => {
+                const { data } = await getPosts(1);
+                updatePosts(data);
+            };
+            fetchPosts();
+        }
+    }, [posts]);
+
+    const handleButtonClick = () => {
+        openModal(<>Hello!</>)
+    }
 
     return (
         <>
             <div style={{ maxWidth: 600, margin: '0 auto' }}>
-                <AddNewPostButton onClick={() => setIsModalVisible(true)} />
-                <InfiniteScrollComponent dataLength={posts.length} onFetch={fetchPosts} hasMoreData={hasMoreData}>
-                    {posts.map((post) => <PostComponent {...post} />)}
+                <AddNewPostButton onClick={handleButtonClick} />
+                <InfiniteScrollComponent
+                    dataLength={posts.length}
+                    onFetch={fetchPosts}
+                    hasMoreData={hasMoreData}>
+                    {posts.map((post) => <PostComponent key={post.id} {...post} />)}
                 </InfiniteScrollComponent>
+
             </div>
             <ScrollToTopButton />
-            <Modal open={isModalVisible} onCancel={() => setIsModalVisible(false)} />
         </>
     );
 };

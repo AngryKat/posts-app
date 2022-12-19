@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'https://jsonplaceholder.typicode.com/';
+const baseURL = 'http://localhost:8080/';
 
 export const sendRequest = async (url: string, method: string = 'GET', data: any = {}) => {
     const request = await axios.request({

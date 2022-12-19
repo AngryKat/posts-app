@@ -3,18 +3,19 @@ import { ReactNode } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 interface InfiniteScrollComponentProps {
-    dataLength: number, 
-    onFetch: () => void, 
-    hasMoreData: boolean, 
+    dataLength: number,
+    onFetch: () => void,
+    hasMoreData: boolean,
     children: ReactNode,
 };
 
-export const InfiniteScrollComponent = ({ dataLength, onFetch, hasMoreData, children }: InfiniteScrollComponentProps) => (
+export const InfiniteScrollComponent = ({ dataLength, onFetch, hasMoreData, children }: InfiniteScrollComponentProps) => {
+    return (
     <InfiniteScroll
-        scrollThreshold={1}
         dataLength={dataLength}
         next={onFetch}
         hasMore={hasMoreData}
+        scrollThreshold={1}
         loader={
             <div style={{ textAlign: 'center' }}>
                 <Spin />
@@ -22,4 +23,5 @@ export const InfiniteScrollComponent = ({ dataLength, onFetch, hasMoreData, chil
     >
         {children}
     </InfiniteScroll>
-);
+
+)};

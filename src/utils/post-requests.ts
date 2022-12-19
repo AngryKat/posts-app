@@ -17,6 +17,11 @@ export const addPost = async (newPost: Post) => {
     const response = await sendRequest(POSTS_API, 'POST', newPost);
     return response;
 };
+export const editPost = async (id: PostId, newData: Omit<Post, 'id'>) => {
+    const path = `${POSTS_API}/${id}`;
+    const response = await sendRequest(path, 'PUT', newData);
+    return response;
+};
 
 export const deletePost = async (id: PostId) => {
     const path = `${POSTS_API}/${id}`;

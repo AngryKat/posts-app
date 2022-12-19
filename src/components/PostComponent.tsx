@@ -2,12 +2,12 @@ import { Card, Dropdown, MenuProps } from "antd";
 import { EllipsisOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { PostId } from "../types/post-types";
 import { deletePost } from "../utils/post-requests";
-import { usePostsContext } from "../utils/PostsContextProvider";
-
+import { usePostsContext } from "../utils/PostsContextProvider copy";
+import { useModalsContext } from "../utils/ModalContextProvider";
 
 interface MenuActions {
     delete: (id: PostId) => void,
-    // edit: (id: PostId) => void,
+    edit: (id: PostId) => void,
 };
 
 interface PostProps {
@@ -42,12 +42,17 @@ const MoreActionsButton = ({ onClick }: MenuProps) => (
 );
 
 export const PostComponent = ({ id, title, body }: PostProps) => {
-    const { updatePosts, posts } = usePostsContext();
+    const { openModal } = useModalsContext();
+    const { updatePosts, posts, updatePostId } = usePostsContext();
 
     const menuActions: MenuActions = {
         delete: (id: PostId) => {
             deletePost(id);
             updatePosts(posts.filter((post) => post.id !== id));
+        },
+        edit: (id: PostId) => {
+            updatePostId(id);
+            openModal(<>I am form!</>);
         }
     }
 
