@@ -3,6 +3,11 @@ export interface Post {
     id: number,
     title: string,
     body: string,
+    date: Date,
 };
 
 export type PostId = number;
+
+export type PostProps = Omit<Post, 'userId'>;
+
+export type PostFormValues = Omit<PostProps, 'id' | 'date'>

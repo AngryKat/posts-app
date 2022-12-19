@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.0",
     "antd": "^5.0.7",
     "axios": "^1.2.1",
+    "formik": "^2.2.9",
     "json-server": "^0.17.1",
     "rc-scroll-anim": "^2.7.6",
     "rc-tween-one": "^3.0.6",

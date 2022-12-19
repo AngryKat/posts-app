@@ -1,23 +1,23 @@
-import { Post, PostId } from "../types/post-types";
+import { PostFormValues, PostId } from "../types/post-types";
 import { sendRequest } from "./api";
 
-const PAGE_LIMIT = 4;
+const PAGE_LIMIT = 8;
 const POSTS_API = '/posts';
 
 export const getPosts = async (page?: number) => {
     let path = POSTS_API;
     if (page) {
-        path += `?_page=${page}&_limit=${PAGE_LIMIT}`;
+        path += `?_page=${page}&_limit=${PAGE_LIMIT}&_sort=date&_order=desc`;
     }
     const response = await sendRequest(path);
     return response;
 };
 
-export const addPost = async (newPost: Post) => {
-    const response = await sendRequest(POSTS_API, 'POST', newPost);
+export const addPost = async (newPost: PostFormValues) => {
+    const response = await sendRequest(POSTS_API, 'POST', { userId: 1, date: new Date(), ...newPost});
     return response;
 };
-export const editPost = async (id: PostId, newData: Omit<Post, 'id'>) => {
+export const editPost = async (id: PostId, newData: PostFormValues) => {
     const path = `${POSTS_API}/${id}`;
     const response = await sendRequest(path, 'PUT', newData);
     return response;

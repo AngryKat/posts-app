@@ -1,15 +1,18 @@
 
 
 import { useEffect, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { getPosts } from '../utils/post-requests';
+import { addPost, getPosts } from '../utils/post-requests';
 import { PostComponent } from './PostComponent';
 import { InfiniteScrollComponent } from './InfiniteScrollComponent';
 import { ScrollToTopButton } from './ScrollToTopButton';
 import { usePostsContext } from '../utils/PostsContextProvider copy';
 import { useModalsContext } from '../utils/ModalContextProvider';
+import { PostForm } from './PostForm';
+import { PostFormValues } from '../types/post-types';
 
+const initialValues = { title: '', body: ''};
 const AddNewPostButton = ({ onClick }: { onClick: () => void }) => (
     <Button
         onClick={onClick}
@@ -21,7 +24,7 @@ const AddNewPostButton = ({ onClick }: { onClick: () => void }) => (
 );
 
 export const HomePage = () => {
-    const { openModal } = useModalsContext();
+    const { openModal, closeModal } = useModalsContext();
     const { updatePosts, posts } = usePostsContext();
     const [hasMoreData, setHasMoreData] = useState(true);
     const [currentPage, setCurrentPage] = useState(2);
@@ -46,8 +49,20 @@ export const HomePage = () => {
         }
     }, [posts]);
 
+    const handleSubmit = async (values: PostFormValues, { resetForm }: any) => {
+        const response = await addPost(values);
+        updatePosts([response.data, ...posts]);
+        closeModal();
+        resetForm();
+    };
+
     const handleButtonClick = () => {
-        openModal(<>Hello!</>)
+        openModal(
+            <PostForm
+                initialValues={initialValues}
+                onSubmit={handleSubmit}
+            />,
+            { footer: null });
     }
 
     return (
