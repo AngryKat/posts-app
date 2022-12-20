@@ -1,12 +1,12 @@
+import { lazy } from "react";
 import { Card, Dropdown, MenuProps } from "antd";
 import { EllipsisOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Post, PostFormValues, PostId, PostProps } from "../types/post-types";
+import { PostFormValues, PostId, PostProps } from "../types/post-types";
 import { deletePost, editPost } from "../utils/post-requests";
 import { usePostsContext } from "../utils/PostsContextProvider copy";
 import { useModalsContext } from "../utils/ModalContextProvider";
-import { PostForm } from "./PostForm";
-import { Formik, FormikBag } from "formik";
 
+const PostForm = lazy(() => import("./PostForm"))
 interface MenuActions {
     delete: (id: PostId) => void,
     edit: (id: PostId) => void,

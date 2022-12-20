@@ -10,7 +10,7 @@ interface PostFormProps {
     ) => void,
 }
 
-export const PostForm = (props: PostFormProps) => {
+const PostForm = (props: PostFormProps) => {
     console.log('aaa ', { initialValues: props.initialValues });
     return (
         <Formik {...props} enableReinitialize>
@@ -22,4 +22,6 @@ export const PostForm = (props: PostFormProps) => {
         </Formik>
 
     )
-}
+};
+
+export default PostForm;
