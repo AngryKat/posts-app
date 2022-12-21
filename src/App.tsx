@@ -1,17 +1,22 @@
+import { Suspense } from 'react';
+import { Spin } from 'antd';
 import { HomePage } from './components/HomePage';
 import { PostsContextProvider } from './utils/PostsContextProvider copy';
+import { ModalsContextProvider } from './utils/ModalContextProvider';
 
 import './App.css';
-import { ModalsContextProvider } from './utils/ModalContextProvider';
+
 
 function App() {
   return (
     <div className="App">
-      <ModalsContextProvider>
-        <PostsContextProvider>
-          <HomePage />
-        </PostsContextProvider>
-      </ModalsContextProvider>
+      <Suspense fallback={<div style={{ textAlign: 'center' }}><Spin /></div>}>
+        <ModalsContextProvider>
+          <PostsContextProvider>
+            <HomePage />
+          </PostsContextProvider>
+        </ModalsContextProvider>
+      </Suspense>
     </div>
   );
 }

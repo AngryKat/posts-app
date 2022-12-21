@@ -48,7 +48,7 @@ export const HomePage = () => {
             };
             fetchPosts();
         }
-    }, [posts]);
+    }, [posts, updatePosts]);
 
     const handleSubmit = async (values: PostFormValues, { resetForm }: any) => {
         const response = await addPost(values);
