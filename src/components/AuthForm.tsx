@@ -1,5 +1,6 @@
 import { Button, Typography } from "antd";
 import { Field, Form, Formik } from "formik";
+import { FormikTextField } from "../utils/formikAdapter";
 
 export default function AuthForm({ isSignUp = false }) {
     const title = isSignUp ? 'Sign Up' : 'Login';
@@ -9,17 +10,16 @@ export default function AuthForm({ isSignUp = false }) {
             initialValues={{
                 login: '',
                 password: '',
-                repeatPassowrd: '',
+                ...(isSignUp && {repeatPassowrd: ''}),
             }}
-            onSubmit={() => { console.log('aaa submit!') }}>
+            onSubmit={(values) => { console.log('aaa submit!', { values }) }}>
             <Form style={{
                 display: 'flex',
                 flexDirection: 'column',
-
             }}>
-                <Field name="login" />
-                <Field name="password" />
-                {isSignUp && <Field name="repeatPassword" />}
+                <Field name="login"  component={FormikTextField} />
+                <Field name="password" component={FormikTextField} type="password" />
+                {isSignUp && <Field name="repeatPassword" component={FormikTextField} type="password" />}
                 <div>
                     <Button
                         htmlType="button"
