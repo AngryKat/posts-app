@@ -1,6 +1,6 @@
 import { Button, Typography } from "antd";
 import { Field, Form, Formik } from "formik";
-import { FormikTextField } from "../utils/formikAdapter";
+import { FormikTextField } from "../utils/formik-adapter";
 
 export default function AuthForm({ isSignUp = false }) {
     const title = isSignUp ? 'Sign Up' : 'Login';

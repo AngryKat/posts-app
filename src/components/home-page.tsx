@@ -4,14 +4,14 @@ import { lazy, useEffect, useState } from 'react';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { addPost, getPosts } from '../utils/post-requests';
-import { PostComponent } from './PostComponent';
-import { InfiniteScrollComponent } from './InfiniteScrollComponent';
-import { ScrollToTopButton } from './ScrollToTopButton';
-import { usePostsContext } from '../utils/PostsContextProvider copy';
-import { useModalsContext } from '../utils/ModalContextProvider';
+import { PostComponent } from './post-component';
+import { InfiniteScrollComponent } from './infinite-scroll-component';
+import { ScrollToTopButton } from './scroll-to-top-button';
+import { usePostsContext } from '../utils/posts-context-provider';
+import { useModalsContext } from '../utils/modal-context-provider';
 import { PostFormValues } from '../types/post-types';
 
-const PostForm = lazy(() => import('./PostForm'))
+const PostForm = lazy(() => import('./post-form'))
 
 const initialValues = { title: '', body: '' };
 const AddNewPostButton = ({ onClick }: { onClick: () => void }) => (

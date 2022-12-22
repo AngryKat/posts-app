@@ -3,10 +3,10 @@ import { Card, Dropdown, MenuProps } from "antd";
 import { EllipsisOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { PostFormValues, PostId, PostProps } from "../types/post-types";
 import { deletePost, editPost } from "../utils/post-requests";
-import { usePostsContext } from "../utils/PostsContextProvider copy";
-import { useModalsContext } from "../utils/ModalContextProvider";
+import { usePostsContext } from "../utils/posts-context-provider";
+import { useModalsContext } from "../utils/modal-context-provider";
 
-const PostForm = lazy(() => import("./PostForm"))
+const PostForm = lazy(() => import("./post-form"))
 interface MenuActions {
     delete: (id: PostId) => void,
     edit: (id: PostId) => void,

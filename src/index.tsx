@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import ErrorComponent from './components/ErrorComponent';
+import ErrorComponent from './components/error-component';
 import {
   createBrowserRouter,
   RouterProvider,

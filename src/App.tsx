@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Spin } from 'antd';
-import { HomePage } from './components/HomePage';
-import { PostsContextProvider } from './utils/PostsContextProvider copy';
-import { ModalsContextProvider } from './utils/ModalContextProvider';
+import { HomePage } from './components/home-page';
+import { PostsContextProvider } from './utils/posts-context-provider';
+import { ModalsContextProvider } from './utils/modal-context-provider';
 
 import './App.css';
 
