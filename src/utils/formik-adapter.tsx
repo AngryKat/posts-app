@@ -1,4 +1,5 @@
-import { Input, InputProps } from "antd";
+import { Input, InputProps, Typography } from "antd";
+import { TextAreaProps } from "antd/es/input";
 import { FieldInputProps } from "formik";
 import { ComponentType } from "react";
 
@@ -15,15 +16,18 @@ export function formikAdapter<T>(ComponentToWrap: ComponentType<T>) {
       form.setFieldTouched(field.name, true);
     };
     const errorText = form?.errors?.[field.name];
-    const isTouched = form?.touched?.[field.name];
-    return (<ComponentToWrap
-      {...(props as T)}
-      onChange={changeHandler}
-      value={field.value}
-      name={field.name}
-      checked={field.value} // used by checkbox
-      errorText={isTouched ? errorText : undefined}
-    />
+    return (
+      <>
+        <ComponentToWrap
+          {...(props as T)}
+          onChange={changeHandler}
+          value={field.value}
+          name={field.name}
+          checked={field.value} // used by checkbox
+          status={errorText && 'error'}
+        />
+        <Typography style={{ color: 'red' }}>{errorText}</Typography>
+      </>
     );
   };
 
@@ -31,3 +35,4 @@ export function formikAdapter<T>(ComponentToWrap: ComponentType<T>) {
 };
 
 export const FormikTextField = formikAdapter<InputProps>(Input);
+export const FormikTextArea = formikAdapter<TextAreaProps>(Input.TextArea);

@@ -1,25 +1,40 @@
 import { Button, Typography } from "antd";
 import { Field, Form, Formik } from "formik";
+import { loginUser, signUpUser } from "../utils/auth-requests";
+import { LoginSchema, SignupSchema } from "../utils/auth-validation-schema";
 import { FormikTextField } from "../utils/formik-adapter";
 
 export default function AuthForm({ isSignUp = false }) {
     const title = isSignUp ? 'Sign Up' : 'Login';
+    const handleSubmit = (values: { email: string, password: string }, { validateForm }: any) => {
+        const { email, password } = values;
+        if (isSignUp) {
+            signUpUser({ email, password });
+        }
+        else {
+            loginUser({ email, password });
+        }
+    }
     return (<>
         <Typography>{title}</Typography>
         <Formik
             initialValues={{
-                login: '',
+                email: '',
                 password: '',
-                ...(isSignUp && {repeatPassowrd: ''}),
+                ...(isSignUp && { repeatPassword: '' }),
             }}
-            onSubmit={(values) => { console.log('aaa submit!', { values }) }}>
+            validationSchema={isSignUp ? SignupSchema : LoginSchema}
+            onSubmit={handleSubmit}
+            validateOnChange={false}
+            validateOnBlur={false}
+        >
             <Form style={{
                 display: 'flex',
                 flexDirection: 'column',
             }}>
-                <Field name="login"  component={FormikTextField} />
-                <Field name="password" component={FormikTextField} type="password" />
-                {isSignUp && <Field name="repeatPassword" component={FormikTextField} type="password" />}
+                <Field name="email" type="email" placeholder="Email" component={FormikTextField} />
+                <Field name="password" type="password" placeholder="Password" component={FormikTextField} />
+                {isSignUp && <Field name="repeatPassword" type="password" placeholder="Confirm password" component={FormikTextField} />}
                 <div>
                     <Button
                         htmlType="button"

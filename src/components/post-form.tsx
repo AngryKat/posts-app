@@ -1,6 +1,8 @@
 import { Button } from "antd";
 import { Field, Form, Formik, FormikState } from "formik"
 import { PostFormValues } from "../types/post-types";
+import { FormikTextArea, FormikTextField } from "../utils/formik-adapter";
+import { PostSchema } from "../utils/post-validation-schema";
 
 interface PostFormProps {
     initialValues: PostFormValues,
@@ -11,12 +13,11 @@ interface PostFormProps {
 }
 
 const PostForm = (props: PostFormProps) => {
-    console.log('aaa ', { initialValues: props.initialValues });
     return (
-        <Formik {...props} enableReinitialize>
+        <Formik {...props} validationSchema={PostSchema} enableReinitialize>
             <Form>
-                <Field name="title" />
-                <Field name="body" />
+                <Field name="title" placeholder="Title" component={FormikTextField} />
+                <Field name="body" placeholder="Write something here..." component={FormikTextArea} autoSize={{ minRows: 12, maxRows: 12 }} showCount />
                 <Button htmlType="submit" type="primary">Submit</Button>
             </Form>
         </Formik>
