@@ -14,7 +14,13 @@ interface PostFormProps {
 
 const PostForm = (props: PostFormProps) => {
     return (
-        <Formik {...props} validationSchema={PostSchema} enableReinitialize>
+        <Formik {...props}
+            validationSchema={PostSchema}
+            validateOnChange={false}
+            validateOnBlur={false}
+            enableReinitialize
+           
+        >
             <Form>
                 <Field name="title" placeholder="Title" component={FormikTextField} />
                 <Field name="body" placeholder="Write something here..." component={FormikTextArea} autoSize={{ minRows: 12, maxRows: 12 }} showCount />
