@@ -1,18 +1,20 @@
 import { Button, Typography } from "antd";
 import { Field, Form, Formik } from "formik";
-import { loginUser, signUpUser } from "../utils/auth-requests";
-import { LoginSchema, SignupSchema } from "../utils/auth-validation-schema";
+import { loginUser, signUpUser } from "../utils/requests/auth-requests";
+import { LoginSchema, SignupSchema } from "../utils/validationSchemas/auth-validation-schema";
 import { FormikTextField } from "../utils/formik-adapter";
 
 export default function AuthForm({ isSignUp = false }) {
     const title = isSignUp ? 'Sign Up' : 'Login';
-    const handleSubmit = (values: { email: string, password: string }, { validateForm }: any) => {
+    const handleSubmit = async (values: { email: string, password: string }) => {
         const { email, password } = values;
         if (isSignUp) {
-            signUpUser({ email, password });
+            const data = await signUpUser({ email, password });
+            console.log('aaa ', { data });
         }
         else {
-            loginUser({ email, password });
+            const data = await loginUser({ email, password });
+            console.log('aaa ', { data });
         }
     }
     return (<>

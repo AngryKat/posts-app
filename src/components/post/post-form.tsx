@@ -1,8 +1,8 @@
 import { Button } from "antd";
 import { Field, Form, Formik, FormikState } from "formik"
-import { PostFormValues } from "../types/post-types";
-import { FormikTextArea, FormikTextField } from "../utils/formik-adapter";
-import { PostSchema } from "../utils/post-validation-schema";
+import { PostFormValues } from "types/post-types";
+import { FormikTextArea, FormikTextField } from "utils/formik-adapter";
+import { PostSchema } from "utils/validationSchemas/post-validation-schema";
 
 interface PostFormProps {
     initialValues: PostFormValues,

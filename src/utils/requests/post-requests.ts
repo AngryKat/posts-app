@@ -1,5 +1,6 @@
-import { PostFormValues, PostId } from "../types/post-types";
-import { sendRequest } from "./api";
+import { PostFormValues, PostId } from "../../types/post-types";
+import { sendRequest } from "../api";
+
 
 const PAGE_LIMIT = 8;
 const POSTS_API = '/posts';

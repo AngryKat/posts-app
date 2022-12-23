@@ -1,15 +1,20 @@
 import { lazy } from "react";
 import { Card, Dropdown, MenuProps } from "antd";
 import { EllipsisOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { PostFormValues, PostId, PostProps } from "../types/post-types";
-import { deletePost, editPost } from "../utils/post-requests";
-import { usePostsContext } from "../utils/posts-context-provider";
-import { useModalsContext } from "../utils/modal-context-provider";
+import { PostFormValues, PostId, PostProps } from "../../types/post-types";
+import { useModalsContext } from "utils/providers/modal-context-provider";
+import { deletePost, editPost } from "utils/requests/post-requests";
+import postStore from "utils/store/posts-store";
 
-const PostForm = lazy(() => import("./post-form"))
-interface MenuActions {
-    delete: (id: PostId) => void,
-    edit: (id: PostId) => void,
+const PostForm = lazy(() => import("./post-form"));
+
+enum MenuAction {
+    edit = 'edit',
+    delete = 'delete',
+};
+
+type MenuActions = {
+    [index in MenuAction]: (id: PostId) => void
 };
 
 
@@ -26,10 +31,6 @@ const items: MenuProps['items'] = [
     },
 ];
 
-
-
-
-
 const MoreActionsButton = ({ onClick }: MenuProps) => (
     <Dropdown menu={{ items, onClick }}>
         <EllipsisOutlined key="ellipsis" />
@@ -37,25 +38,14 @@ const MoreActionsButton = ({ onClick }: MenuProps) => (
 
 );
 
-export const PostComponent = ({ id, title, body, date }: PostProps) => {
+export const PostCard = ({ id, title, body, date }: PostProps) => {
     const { openModal, closeModal } = useModalsContext();
-    const { updatePosts, posts } = usePostsContext();
     const dateToDisplay = new Date(date).toLocaleString();
 
-    const handleSubmit = (values: PostFormValues, { resetForm }: any) => {
-        editPost(id, values);
-        const postIndex = posts.findIndex((post) => post.id === id);
-        let updatedPosts = [...posts];
-        updatedPosts[postIndex] = { ...(posts[postIndex]), ...values };
-        updatePosts(updatedPosts);
-        closeModal();
-        resetForm();
-    };
-
-    const menuActions: MenuActions = {
+    const menuActionsHandlers: MenuActions = {
         delete: () => {
             deletePost(id);
-            updatePosts(posts.filter((post) => post.id !== id));
+            postStore.deletePost(id);
         },
         edit: () => {
             openModal(
@@ -65,10 +55,17 @@ export const PostComponent = ({ id, title, body, date }: PostProps) => {
                 />,
                 { footer: null });
         }
-    }
+    };
+
+    const handleSubmit = (values: PostFormValues, { resetForm }: any) => {
+        editPost(id, values);
+        postStore.editPost(id, values);
+        closeModal();
+        resetForm();
+    };
 
     const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
-        menuActions[key as keyof MenuActions](id);
+        menuActionsHandlers[key as MenuAction](id);
     };
 
 

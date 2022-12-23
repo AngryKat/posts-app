@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 import { Spin } from 'antd';
 import { HomePage } from './components/home-page';
-import { PostsContextProvider } from './utils/posts-context-provider';
-import { ModalsContextProvider } from './utils/modal-context-provider';
+import { ModalsContextProvider } from './utils/providers/modal-context-provider';
+import { AuthContextProvider } from './utils/providers/auth-context-provider';
 
 import './App.css';
 
@@ -11,11 +11,11 @@ function App() {
   return (
     <div className="App">
       <Suspense fallback={<div style={{ textAlign: 'center' }}><Spin /></div>}>
-        <ModalsContextProvider>
-          <PostsContextProvider>
+        <AuthContextProvider>
+          <ModalsContextProvider>
             <HomePage />
-          </PostsContextProvider>
-        </ModalsContextProvider>
+          </ModalsContextProvider>
+        </AuthContextProvider>
       </Suspense>
     </div>
   );
