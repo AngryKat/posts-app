@@ -3,19 +3,28 @@ import { Field, Form, Formik } from "formik";
 import { loginUser, signUpUser } from "../utils/requests/auth-requests";
 import { LoginSchema, SignupSchema } from "../utils/validationSchemas/auth-validation-schema";
 import { FormikTextField } from "../utils/formik-adapter";
+import { useAuthContext } from "utils/providers/auth-context-provider";
+import { redirect } from "react-router-dom";
 
 export default function AuthForm({ isSignUp = false }) {
+    const { login } = useAuthContext();
     const title = isSignUp ? 'Sign Up' : 'Login';
     const handleSubmit = async (values: { email: string, password: string }) => {
         const { email, password } = values;
-        if (isSignUp) {
-            const data = await signUpUser({ email, password });
-            console.log('aaa ', { data });
+        try {
+            let response;
+            if (isSignUp) {
+                response = await signUpUser({ email, password });
+            }
+            else {
+                response = await loginUser({ email, password });
+            }
+            login(response.data.idToken);
+            redirect('/');
+        } catch (error) {
+            window.alert(`Error occurred! ${error}`);
         }
-        else {
-            const data = await loginUser({ email, password });
-            console.log('aaa ', { data });
-        }
+       
     }
     return (<>
         <Typography>{title}</Typography>

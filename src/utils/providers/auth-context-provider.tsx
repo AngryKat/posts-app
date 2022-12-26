@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { createContext, ReactNode, useState } from "react";
 
 type Token = string | null;
@@ -38,4 +39,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             {children}
         </AuthContext.Provider>
     )
-}
+};
+
+export const useAuthContext = () => useContext(AuthContext) || {};
