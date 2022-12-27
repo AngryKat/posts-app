@@ -38,7 +38,7 @@ const MoreActionsButton = ({ onClick }: MenuProps) => (
 
 );
 
-export const PostCard = ({ id, title, body, date }: PostProps) => {
+export const PostCard = ({ id, title, body, date, showActionButtons }: PostProps & { showActionButtons: boolean }) => {
     const { openModal, closeModal } = useModalsContext();
     const dateToDisplay = new Date(date).toLocaleString();
 
@@ -72,7 +72,7 @@ export const PostCard = ({ id, title, body, date }: PostProps) => {
     return (
         <Card
             title={title}
-            extra={<MoreActionsButton onClick={handleMenuClick} />}
+            extra={showActionButtons && <MoreActionsButton onClick={handleMenuClick} />}
             style={{ marginBottom: 16 }}>
             {body}
             {date && <Card.Meta description={dateToDisplay} />}

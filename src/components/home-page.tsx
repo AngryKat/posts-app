@@ -12,6 +12,8 @@ import { useModalsContext } from 'utils/providers/modal-context-provider';
 import { addPost, getPosts } from 'utils/requests/post-requests';
 import { observer } from 'mobx-react-lite';
 import postStore from 'utils/store/posts-store';
+import { useAuthContext } from 'utils/providers/auth-context-provider';
+import { useParams } from 'react-router-dom';
 
 const PostForm = lazy(() => import('./post/post-form'))
 
@@ -27,12 +29,17 @@ const AddNewPostButton = ({ onClick }: { onClick: () => void }) => (
 );
 
 export const HomePage = observer(() => {
-    const { openModal, closeModal } = useModalsContext();
     const [hasMoreData, setHasMoreData] = useState(true);
     const [currentPage, setCurrentPage] = useState(2);
+    const { userId: userIdParam } = useParams();
+    const { userId: currentUserId } = useAuthContext();
+    const { openModal, closeModal } = useModalsContext();
+
+    const isCurrentUserHomePage = userIdParam === currentUserId;
+
 
     const fetchPosts = async () => {
-        const { data } = await getPosts(currentPage);
+        const { data } = await getPosts(userIdParam!, currentPage);
         if (data.length <= 0) {
             setHasMoreData(false);
             return;
@@ -42,17 +49,19 @@ export const HomePage = observer(() => {
     }
 
     useEffect(() => {
+        console.log('aaa ', userIdParam);
+        postStore.posts = [];
         if (postStore.posts.length <= 3) {
             const fetchPosts = async () => {
-                const { data } = await getPosts(1);
+                const { data } = await getPosts(userIdParam!, 1);
                 postStore.posts = data;
             };
             fetchPosts();
         }
-    }, []);
+    }, [userIdParam]);
 
     const handleSubmit = async (values: PostFormValues, { resetForm }: any) => {
-        const response = await addPost(values);
+        const response = await addPost(userIdParam!, values);
         postStore.addPost(response.data);
         closeModal();
         resetForm();
@@ -69,13 +78,14 @@ export const HomePage = observer(() => {
 
     return (
         <>
-            <div style={{ maxWidth: 600, margin: '0 auto' }}>
-                <AddNewPostButton onClick={handleButtonClick} />
+            <div style={{ width: 600, margin: '0 auto' }}>
+                {isCurrentUserHomePage && <AddNewPostButton onClick={handleButtonClick} />}
                 <InfiniteScrollComponent
+                    scrollableTarget="App"
                     dataLength={postStore.posts.length}
                     onFetch={fetchPosts}
                     hasMoreData={hasMoreData}>
-                    {postStore.posts.map((post: any) => <PostCard key={post.id} {...post} />)}
+                    {postStore.posts.map((post: any) => <PostCard key={post.id} showActionButtons={isCurrentUserHomePage} {...post} />)}
                 </InfiniteScrollComponent>
 
             </div>
