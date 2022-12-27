@@ -49,7 +49,6 @@ export const HomePage = observer(() => {
     }
 
     useEffect(() => {
-        console.log('aaa ', userIdParam);
         postStore.posts = [];
         if (postStore.posts.length <= 3) {
             const fetchPosts = async () => {

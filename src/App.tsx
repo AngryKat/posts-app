@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { Layout, Menu, MenuProps, Spin } from 'antd';
-import { LogoutOutlined, HomeOutlined } from '@ant-design/icons';
+import { LogoutOutlined, HomeOutlined, UserOutlined } from '@ant-design/icons';
 import { HomePage } from './components/home-page';
 import { ModalsContextProvider } from './utils/providers/modal-context-provider';
 import { AuthContextProvider, useAuthContext } from './utils/providers/auth-context-provider';
@@ -11,6 +11,7 @@ import './App.css';
 
 const LoginPage = lazy(() => import('pages/LoginPage'))
 const SignUpPage = lazy(() => import('pages/SignUpPage'))
+const UserProfilePage = lazy(() => import('pages/user-profile-page'))
 
 
 const AppRoutes = () => {
@@ -22,6 +23,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/users/:userId" element={<HomePage />} />
+      <Route path="/profile" element={<UserProfilePage />} />
     </Routes>
   )
 }
@@ -32,6 +34,7 @@ const NavigationSider = () => {
   const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
     switch (key) {
       case 'home': nav('/'); break;
+      case 'profile': nav('/profile'); break;
       case 'logout': logout(); nav('/'); break;
     }
   }
@@ -58,6 +61,11 @@ const NavigationSider = () => {
           key: 'home',
           label: 'Home',
           icon: <HomeOutlined />,
+        },
+        {
+          key: 'profile',
+          label: 'Profile',
+          icon: <UserOutlined />,
         },
         {
           key: 'logout',
