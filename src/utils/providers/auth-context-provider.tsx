@@ -21,10 +21,13 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     
     const loginHandler = (token: string) => {
         setToken(token);
+        localStorage.setItem('token', token);
     };
 
     const logoutHandler = () => {
         setToken(null);
+        localStorage.removeItem('token');
+
     }
 
     const contextValue = { 
