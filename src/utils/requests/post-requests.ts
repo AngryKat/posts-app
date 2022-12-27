@@ -5,17 +5,18 @@ import { sendRequest } from "../api";
 const PAGE_LIMIT = 8;
 const POSTS_API = '/posts';
 
-export const getPosts = async (page?: number) => {
+export const getPosts = async (userId: number | string, page?: number) => {
     let path = POSTS_API;
     if (page) {
-        path += `?_page=${page}&_limit=${PAGE_LIMIT}&_sort=date&_order=desc`;
+        path += `?userId=${userId}&_page=${page}&_limit=${PAGE_LIMIT}&_sort=date&_order=desc`;
     }
     const response = await sendRequest(path);
+    console.log('aaa ', { response });
     return response;
 };
 
-export const addPost = async (newPost: PostFormValues) => {
-    const response = await sendRequest(POSTS_API, 'POST', { userId: 1, date: new Date(), ...newPost});
+export const addPost = async (userId: number | string, newPost: PostFormValues) => {
+    const response = await sendRequest(POSTS_API, 'POST', { userId, date: new Date(), ...newPost});
     return response;
 };
 export const editPost = async (id: PostId, newData: PostFormValues) => {

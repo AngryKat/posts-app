@@ -1,4 +1,4 @@
-import { Spin } from "antd";
+import { Spin, Typography } from "antd";
 import { ReactNode } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -10,6 +10,9 @@ interface InfiniteScrollComponentProps {
 };
 
 export const InfiniteScrollComponent = ({ dataLength, onFetch, hasMoreData, children }: InfiniteScrollComponentProps) => {
+    if (dataLength === 0) {
+        return <Typography>No data</Typography>
+    }
     return (
     <InfiniteScroll
         dataLength={dataLength}

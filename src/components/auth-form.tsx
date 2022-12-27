@@ -4,9 +4,10 @@ import { loginUser, signUpUser } from "../utils/requests/auth-requests";
 import { LoginSchema, SignupSchema } from "../utils/validationSchemas/auth-validation-schema";
 import { FormikTextField } from "../utils/formik-adapter";
 import { useAuthContext } from "utils/providers/auth-context-provider";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthForm({ isSignUp = false }) {
+    const navigate = useNavigate();
     const { login } = useAuthContext();
     const title = isSignUp ? 'Sign Up' : 'Login';
     const handleSubmit = async (values: { email: string, password: string }) => {
@@ -19,8 +20,8 @@ export default function AuthForm({ isSignUp = false }) {
             else {
                 response = await loginUser({ email, password });
             }
-            login(response.data.idToken);
-            redirect('/');
+            login(response.data);
+            navigate('/');
         } catch (error) {
             window.alert(`Error occurred! ${error}`);
         }

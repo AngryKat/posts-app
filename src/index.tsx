@@ -1,31 +1,9 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import ErrorComponent from './components/error-component';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+
 import './index.css';
 
-const SignUpPage = lazy(() => import('./pages/SignUpPage'));
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <ErrorComponent />,
-  },
-  {
-    path: "/signup",
-    element: <SignUpPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-]);
 
 
 const root = ReactDOM.createRoot(
@@ -33,6 +11,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App />
   </React.StrictMode>
 );
