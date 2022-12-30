@@ -1,0 +1,17 @@
+.auth-form {
+    &__title {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        &__action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+    }
+
+}
