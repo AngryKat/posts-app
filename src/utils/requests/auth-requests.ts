@@ -8,7 +8,8 @@ export const loginUser = async (loginData: object) => {
     return await sendAuthRequest(`:signInWithPassword?key=${process.env.REACT_APP_API_KEY}`, { data:{ ...loginData, returnSecureToken: true } })
 };
 
-export const getUser = async (token: string) => {
-    return await sendAuthRequest(`:lookup?key=${process.env.REACT_APP_API_KEY}`, { data:{ token } })
+export const getUser = async (idToken: string) => {
+    console.log('aaa get ')
+    return await sendAuthRequest(`:lookup?key=${process.env.REACT_APP_API_KEY}`, { data:{ idToken } })
 };
 

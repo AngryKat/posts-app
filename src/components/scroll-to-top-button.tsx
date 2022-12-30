@@ -7,7 +7,6 @@ const SCROLL_THRESHHOLD = 300;
 export const ScrollToTopButton = () => {
     const [isVisible, setIsVisible] = useState(false);
     const toggleVisible = () => {
-        console.log('aaa scroll ');
         const scrolled = document.documentElement.scrollTop;
         if (scrolled > SCROLL_THRESHHOLD) {
             setIsVisible(true);

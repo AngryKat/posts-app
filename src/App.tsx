@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import { Layout, Menu, MenuProps, Spin } from 'antd';
@@ -9,8 +9,7 @@ import { AuthContextProvider, useAuthContext } from './utils/providers/auth-cont
 
 import './App.css';
 
-const LoginPage = lazy(() => import('pages/LoginPage'))
-const SignUpPage = lazy(() => import('pages/SignUpPage'))
+const AuthPage = lazy(() => import('pages/auth-page'))
 const UserProfilePage = lazy(() => import('pages/user-profile-page'))
 
 
@@ -20,8 +19,8 @@ const AppRoutes = () => {
     <Routes>
       <Route path="*" element={<Navigate to='/' replace />} />
       <Route path="/" element={<Navigate to={userId ? `/users/${userId}` : '/login'} replace />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/login" element={<AuthPage />} />
+      <Route path="/signup" element={<AuthPage isSignUp />} />
       <Route path="/users/:userId" element={<HomePage />} />
       <Route path="/profile" element={<UserProfilePage />} />
     </Routes>
