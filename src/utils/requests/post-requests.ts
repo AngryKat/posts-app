@@ -11,7 +11,6 @@ export const getPosts = async (userId: number | string, page?: number) => {
         path += `?userId=${userId}&_page=${page}&_limit=${PAGE_LIMIT}&_sort=date&_order=desc`;
     }
     const response = await sendRequest(path);
-    console.log('aaa ', { response });
     return response;
 };
 
