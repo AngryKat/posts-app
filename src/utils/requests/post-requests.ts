@@ -1,5 +1,5 @@
 import { PostFormValues, PostId } from "../../types/post-types";
-import { sendRequest } from "../api";
+import { queryDataBuilder, sendRequest } from "../api";
 
 
 const PAGE_LIMIT = 8;
@@ -8,7 +8,8 @@ const POSTS_API = '/posts';
 export const getPosts = async (userId: number | string, page?: number) => {
     let path = POSTS_API;
     if (page) {
-        path += `?userId=${userId}&_page=${page}&_limit=${PAGE_LIMIT}&_sort=date&_order=desc`;
+        const queryString = queryDataBuilder({ userId, _page: page, _limit: PAGE_LIMIT, _sort: 'date', _order: 'desc' });
+        path += queryString;
     }
     const response = await sendRequest(path);
     return response;

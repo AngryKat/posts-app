@@ -24,3 +24,14 @@ export const sendAuthRequest = async (url = '', { method = 'POST', data = {} }: 
     });
     return request;
 }
+
+type dataType = {
+    [key : string | number ]: string | number | boolean
+}
+
+export const queryDataBuilder = (data: dataType) => {
+    const res = [];
+    for (let d in data)
+      res.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+    return '?'+res.join('&');
+ }
